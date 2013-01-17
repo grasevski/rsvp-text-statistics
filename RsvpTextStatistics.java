@@ -33,13 +33,11 @@ final class RsvpTextStatistics {
   }
 
   public static void main(final String[] args) {
-    String st = "select id from genre where name = ?";
-    st = String.format("delete from %%s where genre = (%s)", st);
-    final String deleteStmt = st;
+    final String deleteStmt = "delete from %s";
     final String categorySt = "select id from category where name = ?";
     final String genreSt = "select id from genre where category = (%s) and name = ?";
     final String featureSt = "insert into %%s values ((%s),%%s)";
-    st = String.format(genreSt, categorySt);
+    String st = String.format(genreSt, categorySt);
     final String insertSt = String.format(featureSt, st);
     final String inConString = "jdbc:oracle:thin:@SMARTR510-SERV1:1521:orcl";
     final String outConString = "jdbc:sqlite:" + args[0];
@@ -84,15 +82,14 @@ final class RsvpTextStatistics {
       final Connection outCon = DriverManager.getConnection(outConString);
       outCon.setAutoCommit(false);
       final Statement inSt = inCon.createStatement();
+      final Statement deleteSt = outCon.createStatement();
       for (RsvpQuery rq : queries) {
         System.out.println(rq.name);
         st = String.format(deleteStmt, rq.name);
-        final PreparedStatement deleteSt = outCon.prepareStatement(st);
+        deleteSt.executeUpdate(st);
         for (RsvpTextCategory rtc : categories) {
           System.out.println("  " + rtc.name);
           for (String g : rtc.genres) {
-            deleteSt.setString(1, g);
-            deleteSt.executeUpdate();
             st = String.format(rq.stmt, rtc.name, g);
             final ResultSet rs = inSt.executeQuery(st);
             while (rs.next()) {
