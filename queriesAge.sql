@@ -2,7 +2,7 @@
 --gender,agegroup,feature,pool
 select gender, agegroup, %2$s feature, count(*) pool from person
 join %1$s u on u.userid=person.userid
-group by gender, agegroup, %2$s;
+where status in (1, 2, 3) group by gender, agegroup, %2$s;
 
 --lhs2rhsAge
 --g1,g2,a1,a2,f1,f2,lhs2rhs,lhs,rhs
@@ -46,7 +46,7 @@ group by p1.gender, p2.gender, p1.agegroup, p2.agegroup, u1.%2$s;
 
 --p2rhsAge
 --g1,g2,a1,a2,f2,p2rhs,p,rhs
-select positivereply, p1.gender g1, p2.gender g2, p1.agegroup a1, p2.agegroup a2, u2.%2$s f2, count(*) p2rhs, count(distinct initiatinguserid) p, count(distinct targetuserid) rhs
+select p1.gender g1, p2.gender g2, p1.agegroup a1, p2.agegroup a2, u2.%2$s f2, count(*) p2rhs, count(distinct initiatinguserid) p, count(distinct targetuserid) rhs
 from kiss
 join person p1 on p1.userid=initiatinguserid
 join person p2 on p2.userid=targetuserid
@@ -55,7 +55,7 @@ group by p1.gender, p2.gender, p1.agegroup, p2.agegroup, u2.%2$s;
 
 --p2rhs_tAge
 --g1,g2,a1,a2,f2,p2rhs_t,p,rhs
-select positivereply, p1.gender g1, p2.gender g2, p1.agegroup a1, p2.agegroup a2, u2.%2$s f2, count(*) p2rhs_t, count(distinct initiatinguserid) p, count(distinct targetuserid) rhs
+select p1.gender g1, p2.gender g2, p1.agegroup a1, p2.agegroup a2, u2.%2$s f2, count(*) p2rhs_t, count(distinct initiatinguserid) p, count(distinct targetuserid) rhs
 from kiss
 join person p1 on p1.userid=initiatinguserid
 join person p2 on p2.userid=targetuserid

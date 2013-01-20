@@ -1,16 +1,24 @@
---drop table kiss purge;
---drop table movie purge;
---drop table music purge;
---drop table sport purge;
---drop table person purge;
---drop table usertext purge;
+-- Delete tables and create new ones.
+drop table kiss purge;
+drop table movie purge;
+drop table music purge;
+drop table sport purge;
+drop table person purge;
+drop table usertext purge;
 
+-- An RSVP users relevant fields. Userid, gender (134 is male, 135
+-- is female), status (1, 2 and 3 are the only active statuses) and
+-- agegroup (0 is 18-29, 1 is 30-59, and 2 is 60+).
 create table person (
   userid integer primary key,
   gender integer not null,
+  status integer not null,
   agegroup integer not null
 );
 
+-- A simplified kiss table, including only a primary key, sender
+-- id, receiver id and the reply type (0 is negative, 1 is
+-- positive, 2 is neutral)
 create table kiss (
   kissid integer primary key,
   initiatinguserid integer not null references person(userid),
@@ -18,6 +26,8 @@ create table kiss (
   positivereply integer not null
 );
 
+-- Movie features table, outputted from the rsvp-text-analysis
+-- scripts.
 create table movie (
   userid integer primary key references person(userid),
   movie integer not null,
@@ -41,6 +51,8 @@ create table movie (
   western integer not null
 );
 
+-- Music features table, outputted from the rsvp-text-analysis
+-- scripts.
 create table music (
   userid integer primary key references person(userid),
   music integer not null,
@@ -56,6 +68,8 @@ create table music (
   soundtrack integer not null
 );
 
+-- Sport features table, outputted from the rsvp-text-analysis
+-- scripts.
 create table sport (
   userid integer primary key references person(userid),
   sport integer not null,
@@ -95,18 +109,22 @@ create table sport (
   winter integer not null
 );
 
+-- Populate the person table with all users.
 insert into person
-select userid, gender_prid, least(2, trunc(age/30)) from (
+select userid, gender_prid, status, least(2, trunc(age/30)) from (
   select userid, gender_prid, trunc(months_between(sysdate, hdateofbirth)/12) age, status
   from rsvp_0612.ua_useraccount
-) where status in (1, 2, 3);
+);
 
+-- Populate the kiss table with all kisses.
 insert into kiss
 select sr_kiss.id, initiatinguserid, targetuserid, positivereply
 from rsvp_0612.sr_kiss
 join rsvp_0612.kissreplymessage k on k.id=replymessageid
 where sr_kiss.created between '01feb12' and '01may12' and initiatinguserid in (select userid from person) and targetuserid in (select userid from person);
 
+-- Get all of the relevant free text fields and store them in one
+-- table, for easy extraction to csv files.
 create table usertext as
 select freetextid, userid, movies movie, music, sport
 from rsvp_0612.up_freetext

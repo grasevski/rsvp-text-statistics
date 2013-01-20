@@ -1,9 +1,8 @@
 --pool
 --gender,feature,pool
-select gender, %2$s feature, count(*) pool
-from person
+select gender, %2$s feature, count(*) pool from person
 join %1$s u on u.userid=person.userid
-group by gender, %2$s;
+where status in (1, 2, 3) group by gender, %2$s;
 
 --lhs2rhs
 --g1,g2,f1,f2,lhs2rhs,lhs,rhs

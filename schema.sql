@@ -20,6 +20,9 @@ create table age (
 create table gender (id integer primary key);
 create table feature (id integer primary key);
 
+-- These basic tables are used to generate all combinations of age,
+-- gender and feature, by using a simple cross product of the three
+-- tables.
 insert into age values (0, "young");
 insert into age values (1, "middle");
 insert into age values (2, "old");

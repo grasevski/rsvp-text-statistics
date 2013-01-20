@@ -22,7 +22,9 @@ select count(*) from &kiss_table
 where created between '&date_from' and '&date_to';
 
 -- U1 to U2 (LHS2RHS)
-select &u1_gender, &u2_gender, &u1_feature, &u2_feature, * from (
+select &u1_gender, &u2_gender, &u1_feature, &u2_feature,
+  nLHS_LHS2RHS, nRHS_LHS2RHS, LHS2RHS, nLHS_LHS2RHS_T, nRHS_LHS2RHS_T, LHS2RHS_T
+from (
   select count(*) LHS2RHS, count(distinct initiatinguserid) nLHS_LHS2RHS, count(distinct targetuserid) nRHS_LHS2RHS
   from temp_feature
   where u1_gender_prid in &u1_gender
@@ -35,12 +37,14 @@ select &u1_gender, &u2_gender, &u1_feature, &u2_feature, * from (
   where u1_gender_prid in &u1_gender
     and u2_gender_prid in &u2_gender
     and initiatinguserid in (select userid from &feature_table where &feature in &u1_feature)
-    and targetuserid in (select userid from &feature_table wher &feature in &u2_feature)
+    and targetuserid in (select userid from &feature_table where &feature in &u2_feature)
     and replymessageid in (select replymessageid from &pos_reply_table)
 );
 
 -- U1 to all (LHS2Q)
-select &u1_gender, &u2_gender, &u1_feature, &u2_feature, * from (
+select &u1_gender, &u2_gender, &u1_feature, &u2_feature,
+  nLHS_LHS2Q, nQ_LHS2Q, LHS2Q, nLHS_LHS2Q_T, nQ_LHS2Q_T, LHS2Q_T
+from (
   select count(*) LHS2Q, count(distinct initiatinguserid) nLHS_LHS2Q, count(distinct targetuserid) nQ_LHS2Q
   from temp_feature
   where u1_gender_prid in &u1_gender
@@ -56,7 +60,9 @@ select &u1_gender, &u2_gender, &u1_feature, &u2_feature, * from (
 );
 
 -- all to U2 (P2RHS)
-select &u1_gender, &u2_gender, &u1_feature, &u2_feature, * from (
+select &u1_gender, &u2_gender, &u1_feature, &u2_feature,
+  nP_P2RHS, nRHS_P2RHS, P2RHS, nP_P2RHS_T, nRHS_P2RHS_T, P2RHS_T
+from (
   select count(*) P2RHS, count(distinct initiatinguserid) nP_P2RHS, count(distinct targetuserid) nRHS_P2RHS
   from temp_feature
   where u1_gender_prid in &u1_gender
@@ -72,7 +78,8 @@ select &u1_gender, &u2_gender, &u1_feature, &u2_feature, * from (
 );
 
 -- U1, U2 in user pool
-select &u1_gender, &u2_gender, &u1_feature, &u2_feature, * from (
+select &u1_gender, &u2_gender, &u1_feature, &u2_feature,
+  nLHS_POOL, nRHS_POOL from (
   select count(*) nLHS_POOL from &account_table
   where gender_prid in &u1_gender and status in (1, 2, 3)
     and userid in (select userid from &feature_table where &feature in &u1_feature)
