@@ -29,16 +29,21 @@ from (
   from temp_feature
   where u1_gender_prid in &u1_gender
     and u2_gender_prid in &u2_gender
-    and initiatinguserid in (select userid from &feature_table where &feature in &u1_feature)
-    and targetuserid in (select userid from &feature_table where &feature in &u2_feature)
+    and initiatinguserid in (select userid from &feature_table
+      where &feature in &u1_feature)
+    and targetuserid in (select userid from &feature_table
+      where &feature in &u2_feature)
 ), (
   select count(*) LHS2RHS_T, count(distinct initiatinguserid) nLHS_LHS2RHS_T, count(distinct targetuserid) nRHS_LHS2RHS_T
   from temp_feature
   where u1_gender_prid in &u1_gender
     and u2_gender_prid in &u2_gender
-    and initiatinguserid in (select userid from &feature_table where &feature in &u1_feature)
-    and targetuserid in (select userid from &feature_table where &feature in &u2_feature)
-    and replymessageid in (select replymessageid from &pos_reply_table)
+    and initiatinguserid in (select userid from &feature_table
+      where &feature in &u1_feature)
+    and targetuserid in (select userid from &feature_table
+      where &feature in &u2_feature)
+    and replymessageid in (select replymessageid
+      from &pos_reply_table)
 );
 
 -- U1 to all (LHS2Q)
@@ -49,14 +54,17 @@ from (
   from temp_feature
   where u1_gender_prid in &u1_gender
     and u2_gender_prid in &u2_gender
-    and initiatinguserid in (select userid from &feature_table where &feature in &u1_feature)
+    and initiatinguserid in (select userid from &feature_table
+      where &feature in &u1_feature)
 ), (
   select count(*) LHS2Q_T, count(distinct initiatinguserid) nLHS_LHS2Q_T, count(distinct targetuserid) nQ_LHS2Q_T
   from temp_feature
   where u1_gender_prid in &u1_gender
     and u2_gender_prid in &u2_gender
-    and initiatinguserid in (select userid from &feature_table where &feature in &u1_feature)
-    and replymessageid in (select replymessageid from &pos_reply_table)
+    and initiatinguserid in (select userid from &feature_table
+      where &feature in &u1_feature)
+    and replymessageid in (select replymessageid
+      from &pos_reply_table)
 );
 
 -- all to U2 (P2RHS)
@@ -67,14 +75,17 @@ from (
   from temp_feature
   where u1_gender_prid in &u1_gender
     and u2_gender_prid in &u2_gender
-    and targetuserid in (select userid from &feature_table where &feature in &u2_feature)
+    and targetuserid in (select userid from &feature_table
+      where &feature in &u2_feature)
 ), (
-  select count(*) P2RHS, count(distinct initiatinguserid) nP_P2RHS, count(distinct targetuserid) nRHS_P2RHS
+  select count(*) P2RHS_T, count(distinct initiatinguserid) nP_P2RHS_T, count(distinct targetuserid) nRHS_P2RHS_T
   from temp_feature
   where u1_gender_prid in &u1_gender
     and u2_gender_prid in &u2_gender
-    and targetuserid in (select userid from &feature_table where &feature in &u2_feature)
-    and replymessageid in (select replymessageid from &pos_reply_table)
+    and targetuserid in (select userid from &feature_table
+      where &feature in &u2_feature)
+    and replymessageid in (select replymessageid
+      from &pos_reply_table)
 );
 
 -- U1, U2 in user pool
@@ -82,10 +93,12 @@ select &u1_gender, &u2_gender, &u1_feature, &u2_feature,
   nLHS_POOL, nRHS_POOL from (
   select count(*) nLHS_POOL from &account_table
   where gender_prid in &u1_gender and status in (1, 2, 3)
-    and userid in (select userid from &feature_table where &feature in &u1_feature)
+    and userid in (select userid from &feature_table
+      where &feature in &u1_feature)
 ), (select count(*) nRHS_POOL from &account_table
   where gender_prid in &u2_gender and status in (1, 2, 3)
-    and userid in (select userid from &feature_table where &feature in &u2_feature)
+    and userid in (select userid from &feature_table
+      where &feature in &u2_feature)
 );
 
 drop table temp_feature purge;

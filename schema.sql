@@ -232,21 +232,45 @@ create view results as
 select category, genre.id g, name, gender1, gender2, feature1, feature2, ifnull(lhs2rhs.lhs, 0), ifnull(lhs2rhs.rhs, 0), ifnull(lhs2rhs, 0), ifnull(lhs2rhs_t.lhs, 0), ifnull(lhs2rhs_t.rhs, 0), ifnull(lhs2rhs_t, 0), ifnull(lhs2q.lhs, 0), ifnull(lhs2q.q, 0), ifnull(lhs2q, 0), ifnull(lhs2q_t.lhs, 0), ifnull(lhs2q_t.q, 0), ifnull(lhs2q_t, 0), ifnull(p2rhs.p, 0), ifnull(p2rhs.rhs, 0), ifnull(p2rhs, 0), ifnull(p2rhs_t.p, 0), ifnull(p2rhs_t.rhs, 0), ifnull(p2rhs_t, 0), ifnull(lhs_pool.pool, 0), ifnull(rhs_pool.pool, 0)
 from genre, combos
 left join pool lhs_pool
-on lhs_pool.genre=genre.id and lhs_pool.gender=gender1 and lhs_pool.feature=feature1
+on lhs_pool.genre=genre.id
+  and lhs_pool.gender=gender1
+  and lhs_pool.feature=feature1
 left join pool rhs_pool
-on rhs_pool.genre=genre.id and rhs_pool.gender=gender2 and rhs_pool.feature=feature2
+on rhs_pool.genre=genre.id
+  and rhs_pool.gender=gender2
+  and rhs_pool.feature=feature2
 left join lhs2rhs
-on lhs2rhs.genre=genre.id and lhs2rhs.g1=gender1 and lhs2rhs.g2=gender2 and lhs2rhs.f1=feature1 and lhs2rhs.f2=feature2
+on lhs2rhs.genre=genre.id
+  and lhs2rhs.g1=gender1
+  and lhs2rhs.g2=gender2
+  and lhs2rhs.f1=feature1
+  and lhs2rhs.f2=feature2
 left join lhs2rhs_t
-on lhs2rhs_t.genre=genre.id and lhs2rhs_t.g1=gender1 and lhs2rhs_t.g2=gender2 and lhs2rhs_t.f1=feature1 and lhs2rhs_t.f2=feature2
+on lhs2rhs_t.genre=genre.id
+  and lhs2rhs_t.g1=gender1
+  and lhs2rhs_t.g2=gender2
+  and lhs2rhs_t.f1=feature1
+  and lhs2rhs_t.f2=feature2
 left join lhs2q
-on lhs2q.genre=genre.id and lhs2q.g1=gender1 and lhs2q.g2=gender2 and lhs2q.f1=feature1
+on lhs2q.genre=genre.id
+  and lhs2q.g1=gender1
+  and lhs2q.g2=gender2
+  and lhs2q.f1=feature1
 left join lhs2q_t
-on lhs2q_t.genre=genre.id and lhs2q_t.g1=gender1 and lhs2q_t.g2=gender2 and lhs2q_t.f1=feature1
+on lhs2q_t.genre=genre.id
+  and lhs2q_t.g1=gender1
+  and lhs2q_t.g2=gender2
+  and lhs2q_t.f1=feature1
 left join p2rhs
-on p2rhs.genre=genre.id and p2rhs.g1=gender1 and p2rhs.g2=gender2 and p2rhs.f2=feature2
+on p2rhs.genre=genre.id
+  and p2rhs.g1=gender1
+  and p2rhs.g2=gender2
+  and p2rhs.f2=feature2
 left join p2rhs_t
-on p2rhs_t.genre=genre.id and p2rhs_t.g1=gender1 and p2rhs_t.g2=gender2 and p2rhs_t.f2=feature2;
+on p2rhs_t.genre=genre.id
+  and p2rhs_t.g1=gender1
+  and p2rhs_t.g2=gender2
+  and p2rhs_t.f2=feature2;
 
 -- As above, grouped by the age groups of the sender, where the
 -- recipient age group is the same as the sender age group.
@@ -254,18 +278,50 @@ create view resultsAge as
 select category, genre.id g, age, name, gender1, gender2, feature1, feature2, ifnull(lhs2rhsAge.lhs, 0), ifnull(lhs2rhsAge.rhs, 0), ifnull(lhs2rhs, 0), ifnull(lhs2rhs_tAge.lhs, 0), ifnull(lhs2rhs_tAge.rhs, 0), ifnull(lhs2rhs_t, 0), ifnull(lhs2qAge.lhs, 0), ifnull(lhs2qAge.q, 0), ifnull(lhs2q, 0), ifnull(lhs2q_tAge.lhs, 0), ifnull(lhs2q_tAge.q, 0), ifnull(lhs2q_t, 0), ifnull(p2rhsAge.p, 0), ifnull(p2rhsAge.rhs, 0), ifnull(p2rhs, 0), ifnull(p2rhs_tAge.p, 0), ifnull(p2rhs_tAge.rhs, 0), ifnull(p2rhs_t, 0), ifnull(lhs_pool.pool, 0), ifnull(rhs_pool.pool, 0)
 from genre, age, combos
 left join poolAge lhs_pool
-on lhs_pool.genre=genre.id and lhs_pool.agegroup=age and lhs_pool.gender=gender1 and lhs_pool.feature=feature1
+on lhs_pool.genre=genre.id
+  and lhs_pool.agegroup=age
+  and lhs_pool.gender=gender1
+  and lhs_pool.feature=feature1
 left join poolAge rhs_pool
-on rhs_pool.genre=genre.id and rhs_pool.agegroup=age and rhs_pool.gender=gender2 and rhs_pool.feature=feature2
+on rhs_pool.genre=genre.id
+  and rhs_pool.agegroup=age
+  and rhs_pool.gender=gender2
+  and rhs_pool.feature=feature2
 left join lhs2rhsAge
-on lhs2rhsAge.genre=genre.id and lhs2rhsAge.a1=age and lhs2rhsAge.g1=gender1 and lhs2rhsAge.g2=gender2 and lhs2rhsAge.f1=feature1 and lhs2rhsAge.f2=feature2
+on lhs2rhsAge.genre=genre.id
+  and lhs2rhsAge.a1=age
+  and lhs2rhsAge.g1=gender1
+  and lhs2rhsAge.g2=gender2
+  and lhs2rhsAge.f1=feature1
+  and lhs2rhsAge.f2=feature2
 left join lhs2rhs_tAge
-on lhs2rhs_tAge.genre=genre.id and lhs2rhs_tAge.a1 = age and lhs2rhs_tAge.g1=gender1 and lhs2rhs_tAge.g2=gender2 and lhs2rhs_tAge.f1=feature1 and lhs2rhs_tAge.f2=feature2
+on lhs2rhs_tAge.genre=genre.id
+  and lhs2rhs_tAge.a1 = age
+  and lhs2rhs_tAge.g1=gender1
+  and lhs2rhs_tAge.g2=gender2
+  and lhs2rhs_tAge.f1=feature1
+  and lhs2rhs_tAge.f2=feature2
 left join lhs2qAge
-on lhs2qAge.genre=genre.id and lhs2qAge.a1 = age and lhs2qAge.g1=gender1 and lhs2qAge.g2=gender2 and lhs2qAge.f1=feature1
+on lhs2qAge.genre=genre.id
+  and lhs2qAge.a1 = age
+  and lhs2qAge.g1=gender1
+  and lhs2qAge.g2=gender2
+  and lhs2qAge.f1=feature1
 left join lhs2q_tAge
-on lhs2q_tAge.genre=genre.id and lhs2q_tAge.a1 = age and lhs2q_tAge.g1=gender1 and lhs2q_tAge.g2=gender2 and lhs2q_tAge.f1=feature1
+on lhs2q_tAge.genre=genre.id
+  and lhs2q_tAge.a1 = age
+  and lhs2q_tAge.g1=gender1
+  and lhs2q_tAge.g2=gender2
+  and lhs2q_tAge.f1=feature1
 left join p2rhsAge
-on p2rhsAge.genre=genre.id and p2rhsAge.a1 = age and p2rhsAge.g1=gender1 and p2rhsAge.g2=gender2 and p2rhsAge.f2=feature2
+on p2rhsAge.genre=genre.id
+  and p2rhsAge.a1 = age
+  and p2rhsAge.g1=gender1
+  and p2rhsAge.g2=gender2
+  and p2rhsAge.f2=feature2
 left join p2rhs_tAge
-on p2rhs_tAge.genre=genre.id and p2rhs_tAge.a1 = age and p2rhs_tAge.g1=gender1 and p2rhs_tAge.g2=gender2 and p2rhs_tAge.f2=feature2;
+on p2rhs_tAge.genre=genre.id
+  and p2rhs_tAge.a1 = age
+  and p2rhs_tAge.g1=gender1
+  and p2rhs_tAge.g2=gender2
+  and p2rhs_tAge.f2=feature2;

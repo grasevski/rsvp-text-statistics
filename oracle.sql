@@ -118,10 +118,12 @@ select userid, gender_prid, status, least(2, trunc(age/30)) from (
 
 -- Populate the kiss table with all kisses.
 insert into kiss
-select sr_kiss.id, initiatinguserid, targetuserid, positivereply
+select sr_kiss.id, initiatinguserid, targetuserid, nvl(positivereply, 2)
 from rsvp_0612.sr_kiss
-join rsvp_0612.kissreplymessage k on k.id=replymessageid
-where sr_kiss.created between '01feb12' and '01may12' and initiatinguserid in (select userid from person) and targetuserid in (select userid from person);
+left join rsvp_0612.kissreplymessage k on k.id=replymessageid
+where sr_kiss.created between '01feb12' and '01may12'
+  and initiatinguserid in (select userid from person)
+  and targetuserid in (select userid from person);
 
 -- Get all of the relevant free text fields and store them in one
 -- table, for easy extraction to csv files.
