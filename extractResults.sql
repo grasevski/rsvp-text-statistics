@@ -2,4 +2,4 @@
 select * from category order by id;
 select description from age order by age;
 select * from results where category = ? order by g, gender1, gender2, feature1, feature2;
-select * from resultsAge where category = ? and age = ? order by g, gender1, gender2, feature1, feature2;
+select * from resultsAge where category = ? and age1 = ? and age1 = age2 order by g, gender1, gender2, feature1, feature2;
