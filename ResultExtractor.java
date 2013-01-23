@@ -77,10 +77,10 @@ final class ResultExtractor {
             pstAge.setInt(2, i);
             rs = pstAge.executeQuery();
             while (rs.next()) {
-              out.print(rs.getString(4));
+              out.print(rs.getString(5));
               for (int j=2; j<=fields.length; ++j) {
                 out.print(',');
-                out.print(rs.getInt(j + 3));
+                out.print(rs.getInt(j + 4));
               }
               out.println();
             }
