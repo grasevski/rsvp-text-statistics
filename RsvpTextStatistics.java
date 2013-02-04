@@ -81,8 +81,10 @@ final class RsvpTextStatistics {
       st = "";
       while (sc.hasNextLine()) {
         line = sc.nextLine();
-        for (String s : ps)
-          line = line.replaceAll(s, properties.getProperty(s));
+        for (String s : ps) {
+          final String v = properties.getProperty(s);
+          line = line.replaceAll("\\b" + s + "\\b", v);
+        }
         st += ' ' + line;
         if (line.endsWith(";")) {
           st = st.substring(0, st.length() - 1);
