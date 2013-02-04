@@ -11,8 +11,8 @@ final class PopulateDb {
     final String selectSt = "select id from category where name = ?";
     final Scanner sc = new Scanner(System.in);
     try {Class.forName("org.sqlite.JDBC");}
-    catch (final ClassNotFoundException ex) {
-      throw new RuntimeException(ex);
+    catch (final ClassNotFoundException e) {
+      throw new RuntimeException(e);
     }
     try {
       final Connection con = DriverManager.getConnection(conString);
@@ -27,14 +27,12 @@ final class PopulateDb {
         categorySt.setString(1, genres[0]);
         categorySt.executeUpdate();
         genreSt.setString(1, genres[0]);
-        for (String genre : genres) {
-          genreSt.setString(2, genre);
+        for (int i=2; i<genres.length; ++i) {
+          genreSt.setString(2, genres[i]);
           genreSt.executeUpdate();
         }
       }
       con.commit();
-    } catch (final SQLException ex) {
-      throw new RuntimeException(ex);
-    }
+    } catch (final SQLException e) {throw new RuntimeException(e);}
   }
 }
