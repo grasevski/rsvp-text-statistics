@@ -12,7 +12,7 @@
 # ResultExtractor.
 
 results=results.db
-genres=genres.txt
+genres=genres.csv
 config=config.properties
 
 read -p Username: user
