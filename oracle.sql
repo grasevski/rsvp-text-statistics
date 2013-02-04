@@ -112,7 +112,7 @@ create table sport (
 -- Populate the person table with all users.
 insert into person
 select userid, gender_prid, status, least(2, trunc(age/30)) from (
-  select userid, gender_prid, trunc(months_between(hdateofbirth, '01may12')/12) age, status
+  select userid, gender_prid, trunc(months_between('01may12', hdateofbirth)/12) age, status
   from rsvp_0612.ua_useraccount
 );
 

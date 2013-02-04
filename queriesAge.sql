@@ -60,4 +60,5 @@ from kiss
 join person p1 on p1.userid=initiatinguserid
 join person p2 on p2.userid=targetuserid
 join %1$s u2 on u2.userid=p2.userid
+where positivereply = 1
 group by p1.gender, p2.gender, p1.agegroup, p2.agegroup, u2.%2$s;
