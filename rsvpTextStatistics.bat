@@ -8,7 +8,7 @@ set genres=genres.csv
 set config=config.properties
 
 set cc=javac
-set j=java
+set java=java
 
 set user=%1
 set pass=%2
@@ -16,7 +16,7 @@ set pass=%2
 echo Initializing results db...
 rm -f $results && sqlite3 %results% <schema.sql
 echo Compiling java programs...
-%javac% *.java
+%cc% *.java
 echo Inserting categories and genres into results db...
 %java% -cp "sqlite-jdbc-3.7.2.jar;." PopulateDb %results% <%genres%
 echo Gathering regular query results...
