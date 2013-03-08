@@ -12,6 +12,7 @@ This repository consists of 2 main scripts `rsvpTextStatistics.sh` (for POSIX) a
 Description
 -----------
 This is the basic procedure followed by `rsvpTextStatistics.sh`:
+
 1. Initialize an sqlite database with the schema in `schema.sql`.
 2. Compile the java programs.
 3. Populate the sqlite database with the categories (music, movie etc) and genres (action, romance etc).
@@ -23,6 +24,7 @@ This is the basic procedure followed by `rsvpTextStatistics.sh`:
 Dependencies
 ------------
 The following libraries and programs are required to run these scripts:
+
 1. Oracle JDBC driver (included for your convenience)
 2. SQLite3 JDBC driver (included for your convenience)
 3. SQLite3 command line interface (windows version included for your convenience)
@@ -38,6 +40,7 @@ Installation
 Setup
 -----
 These scripts rely on the following Oracle tables:
+
 * person - the user table, containing the following columns: userid, gender (134 for male or 135 for female), status, dob (date of birth)
 * kiss - the kiss table, containing the following columns: kissid, initiatinguserid, targetuserid, positivereply
 * personAge - the user table, with dob replaced with age group (0 for 18-29, 1 for 30-59, 2 for 60+).
@@ -53,6 +56,7 @@ These need not necessarily be tables, they can be views. An example schema can b
 `config.properties` is simply a list of string substitution rules that are applied to the queries being used in the RsvpTextStatistics java program. If you open one of the input files for RsvpTextStatistics such as `queries.sql` you will see that all of the queries use person, personAge and kiss. These are substituted with the values given in `config.properties` using regex replace during run time when they are read by the RsvpTextStatistics program.
 
 Additionally, the scripts rely on a set of feature tables/views. A feature table/view must contain the following columns:
+
 1. `userid integer primary key references <person_table>(userid)`
 2. A set of feature columns `f1 integer not null, f2 integer not null, ...` etc where each column has either '0' for dislike, '1' for neutral or '2' for like
 
@@ -68,6 +72,7 @@ where "outputname" is the name of the corresponding csv file to be produced, "in
 File Formats
 ------------
 Six data files are used by `rsvpTextStatistics.sh` in the statistics generation process:
+
 1. `config.properties` - Oracle table name definitions
 2. `genres.csv` - Feature table definitions
 3. `schema.sql` - The SQLite3 database schema used to store the intermediate results
@@ -92,6 +97,7 @@ The first two were covered in the previous section, but care needs to be taken w
 `queriesAge.sql` is a similar file, except it contains all of the age-related queries instead.
 
 `extractResults.sql` serves mainly as a sort of configuration file for the ResultExctractor java program:
+
 1. The first line is a comment consisting of the column headings for the output.
 2. The second line is a query that gets all of the categories.
 3. The third line gets the names for each age (this is appended to the names of the output files e.g. `musicYoung.csv`, `musicMiddle.csv` etc).
@@ -109,11 +115,12 @@ Once you have downloaded and extracted the repo, cd to it:
     cd /path/to/rsvp-text-statistics
 ----
 
-Edit `config.properties` and `genres.csv` to reference your Oracle tables, then run `rsvpTextStatistics.bat` if on Windows, otherwise `rsvpTextStatistics.sh` if on POSIX. Then once this is complete, import the resultant csv files into MS Excel
+Edit `config.properties` and `genres.csv` to reference your Oracle tables, then run `rsvpTextStatistics.bat` if on Windows, otherwise `rsvpTextStatistics.sh` if on POSIX. Then once this is complete, import the resultant csv files into MS Excel.
 
 
 Resources
 ---------
+
 * `TextStatistics3MonthNew.xlsx` - An MS Excel file containing the text statistics created by these scripts. The oracle tables used were `person`, `personAge`, `kiss3m`, `music_new`, `movie_new` and `sport_new`, all in the "nicholasg" userspace.
 * `TextStatistics9MonthNew.xlsx` - An MS Excel file containing the text statistics created by these scripts. The oracle tables used were `person`, `personAge`, `kiss9m`, `music_new`, `movie_new` and `sport_new`, all in the "nicholasg" userspace.
 * `TextStatistics3MonthOld.xlsx` - An MS Excel file containing the text statistics created by these scripts. The oracle tables used were `person`, `personAge`, `kiss3m`, `music_old`, `movie_old` and `sport_old`, all in the "nicholasg" userspace.
